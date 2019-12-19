@@ -19,9 +19,6 @@ public class ConsumerControllerClient {
 	@Autowired
 	private LoadBalancerClient loadBalancer;
 	
-	@Autowired
-	private RestTemplate restTemplate;
-	
 	@RequestMapping("/loadbalancer/test")
 	public String loadTest() {
 		ServiceInstance serviceInstance = loadBalancer.choose("service-producer-demo");
@@ -37,6 +34,7 @@ public class ConsumerControllerClient {
 		
 		ResponseEntity<String> response = null;
 		try{
+			RestTemplate restTemplate = new RestTemplate();
 			response = restTemplate.exchange(baseUrl, HttpMethod.GET, getHeaders(), String.class);
 		} catch (Exception ex)
 		{
